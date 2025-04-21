@@ -1,0 +1,23 @@
+name: Portfolio Website CI
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Log in to Dockerhub
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - name: Build Client Container
+      env:
+        NEXT_PUBLIC_API_HOST: ${{secrets.NEXT_PUBLIC_API_HOST}}
+      working-directory: website
+      run: docker build --build-arg NEXT_PUBLIC_API_HOST=$NEXT_PUBLIC_API_HOST  -t kodenobi/portfolio-website .
+    - name: Push to Dockerhub
+      run: docker push kodenobi/portfolio-website:latest
