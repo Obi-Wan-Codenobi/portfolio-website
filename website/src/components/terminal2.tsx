@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import { getBrowser, getOS } from '@/util/getPersonalInfo'
-import Tree from '@/components/tree'
 import Head from 'next/head';
 import { FileTree } from '@/components/filesystem';
 
@@ -278,7 +277,7 @@ export default function Home() {
 
                                 {/* Input Area */}
                                 <div className="w-full mt-2 flex items-center relative z-20 ">
-                                    <span className="text-[#2ecc71]">{fileTree.getCurrentPath()} > </span>
+                                    <span className="text-[#2ecc71]">{fileTree.getCurrentPath()} {'>'} </span>
                                     <input
                                         ref={inputRef}
                                         type="text"
