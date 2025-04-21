@@ -1,0 +1,24 @@
+name: Portfolio Website CD
+
+on:
+  workflow_run:
+    workflows: ["Portfolio Website CI"]
+    types:
+      - completed
+
+jobs:
+  docker-prune:
+    runs-on: self-hosted
+    steps:
+      - name: Docker prune
+        run: sudo docker system prune -af
+  build-client:
+    needs: docker-prune
+    runs-on: self-hosted
+    steps:
+      - name: Pull Client Server Image
+        run: sudo docker pull kodenobi/portfolio-website:latest
+      - name: Delete Old Container
+        run: sudo docker rm -f portfolio-website-container || true
+      - name: Run Client Server Container
+        run: sudo docker run -d -p 3000:3000 --name portfolio-website-container kodenobi/portfolio-website

@@ -1,0 +1,216 @@
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+}
+
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+/* body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+body {
+    background-color: #1a2a1a;
+    color: #2ecc71;
+}
+
+.screen-effects {
+    position: absolute;
+    top: -4%;
+    left: -4%;
+    width: 106%;
+    height: 108%;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(46, 204, 112, 0.095),
+      rgba(46, 204, 112, 0.072) 1px,
+
+      /* soft vhs values: 
+      rgba(46, 204, 113, 0.05),
+      rgba(46, 204, 113, 0.05) 1px, */
+
+      transparent 1px,
+      transparent 3px
+    );
+    background-size: 100% 4px;
+    animation: scan 4s linear infinite, flicker 0.2s infinite;
+
+    /* VHS Glow Effect */
+    box-shadow: 
+      0 0 15px rgba(46, 204, 113, 0.3),   /* Soft outer glow */
+      0 0 40px rgba(46, 204, 113, 0.2),   /* Further glow */
+      inset 0 0 15px rgba(46, 204, 113, 0.4); /* Inner glow */
+    /* box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); */
+    pointer-events: none;
+    filter: url(#barrel-distortion); /* Applies curved lines */
+    z-index: 10; /* Ensures it’s above the text */
+  }
+  
+  /* Scan animation */
+  @keyframes scan {
+    0% {
+      background-position: 0 0;
+    }
+    30% {
+      background-position: 0 20px;
+    }
+    100% {
+      background-position: 0 -30px;
+    }
+  }
+  
+  /* Flicker animation */
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    50% {
+      opacity: 0.95;
+      transform: translateX(4px);
+    }
+  }
+  
+  /* Noise overlay */
+  .screen-effects::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQIHWP4z8DAwMjIyMDAwMDAwMDIyMjAwMDAwMjIyMDAwAAA/wMFlgEX4gAAAABJRU5ErkJggg==');
+    opacity: 0.2;
+    mix-blend-mode: overlay;
+  }
+
+  .grain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+    pointer-events: none; /* Allows clicks to pass through */
+    z-index: 9999; /* Ensure it’s on top */
+    background: url('./../../public/noise.png') repeat; /* Use a noise texture image */
+    opacity: 0.05; /* Adjust for subtlety */
+    animation: grain 0.1s steps(1) infinite;
+  }
+  
+  /* Animation for moving grain */
+  @keyframes grain {
+    0% {
+      background-position: 0 0;
+    }
+    25% {
+      background-position: 100px 100px;
+    }
+    50% {
+      background-position: 50px 150px;
+    }
+    75% {
+      background-position: 150px 50px;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+
+
+
+  .terminal-container {
+    width: 80vw; 
+    max-width: 90%; 
+  }
+
+@media (min-width: 640px) {
+  .terminal-container {
+    width: 70vw;
+  }
+}
+
+@media (min-width: 768px) {
+  .terminal-container {
+    width: 60vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .terminal-container {
+    width: 50vw;
+  }
+}
+
+@media (min-width: 1280px) {
+  .terminal-container {
+    width: 40vw;
+  }
+}
+
+/* Wider on tall screens (vertical orientation) */
+@media (max-aspect-ratio: 1/1) {
+  .terminal-container {
+    width: 85vw;
+  }
+}
+
+
+/* large scan line */
+
+.scan-line {
+    position: absolute;
+    top: -10%; /* Start above the screen */
+    left: -5%;
+    width: 110%;
+    height: 20px;
+    background: rgba(46, 204, 113, 0.2); /* Semi-transparent green */
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.5); /* Glow effect */
+    animation: largeScan var(--scan-duration, 7s) linear infinite; /* Animation every 4 seconds */
+    pointer-events: none; /* Allows interaction through the scan line */
+    z-index: 10; /* Above content but below input */
+  }
+  
+  @keyframes largeScan {
+    0% {
+      top: -10%;
+    }
+    100% {
+      top: 110%;
+    }
+  }
+  
+  /* Apply warp effect to content when scan line passes */
+  .terminal-content {
+    position: relative;
+    filter: url(#scan-warp); /* Reference the SVG filter */
+  }
+  
+  /* SVG Filter for Warping */
+  @keyframes warp-position {
+    0%, 100% {
+      transform: translateY(-100%);
+    }
+    50% {
+      transform: translateY(100%);
+    }
+  }
