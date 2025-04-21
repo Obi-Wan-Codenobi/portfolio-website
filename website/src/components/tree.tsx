@@ -1,7 +1,6 @@
 "use client"
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Head from 'next/head';
 
 // List of personal projects (simulating Git commits or branches)
 const projects = [
@@ -25,7 +24,6 @@ interface GitNode {
 
 export default function Home() {
   const [gitNodes, setGitNodes] = useState<GitNode[]>([]);
-  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
   const treeHeight = useTransform(scrollYProgress, [0, 1], [200, 800]);
 
