@@ -214,3 +214,28 @@ body {
       transform: translateY(100%);
     }
   }
+
+  .comments {
+    margin-left: 3em;
+    font-size: x-small;
+    color:darkgrey
+  }
+
+h1{
+    font-size: 3em;
+    font-weight: 900;
+}
+
+h2{
+    font-size: 2em;
+    font-weight: 900;
+}
+
+h3{
+    font-size: 1.5em;
+    font-weight: 900;
+}
+
+.paragraph-box{
+    margin-top: 1.5em;
+}
