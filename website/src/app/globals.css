@@ -239,3 +239,35 @@ h3{
 .paragraph-box{
     margin-top: 1.5em;
 }
+
+.annotated {
+  position: relative;
+  cursor: pointer;
+  color: #0070f3;
+  border-bottom: 1px dashed #0070f3;
+}
+
+.annotated::after {
+  content: attr(data-comment);
+  position: absolute;
+  bottom: 125%;
+  left: 0;
+  background: #fff8dc;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+}
+
+.annotated:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
