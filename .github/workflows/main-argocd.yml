@@ -31,7 +31,7 @@ jobs:
         cd argocd-temp
 
         # Update deployment manifest
-        yq eval ".spec.template.spec.containers[0].image = \"kodenobi/portfolio-website:$IMAGE_TAG\"" -i kustom-portfolio-website/overlays/prod/deployment.yaml
+        yq eval ".spec.template.spec.containers[0].image = \"kodenobi/portfolio-website:$IMAGE_TAG\"" -i kustom-portfolio-website/base/deployment.yaml
 
         # Commit & push
         git config user.name "github-actions"
