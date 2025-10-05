@@ -1,0 +1,38 @@
+name: Portfolio Website ArgoCD
+
+on:
+  workflow_run:
+    workflows: ["Portfolio Website CI"]
+    types:
+      - completed
+
+jobs:
+  update-image-tag:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install yq
+      run: |
+        sudo wget https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O /usr/bin/yq
+        sudo chmod +x /usr/bin/yq
+        yq --version
+    
+    - name: Update ArgoCD Deployment Repo
+      env:
+        ARGOCD_REPO: git@github.com:Obi-Wan-Codenobi/argocd-deployment.git
+        IMAGE_TAG: ${{ github.sha::7 }}
+      run: |
+        # Clone Argo CD repo
+        git clone $ARGOCD_REPO argocd-temp
+        cd argocd-temp
+
+        # Update the deployment manifest
+        yq eval ".spec.template.spec.containers[0].image = \"kodenobi/portfolio-website:$IMAGE_TAG\"" -i kustom-portfolio-website/overlays/prod/deployment.yaml
+
+        # Commit & push changes
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add .
+        git commit -m "Update webapp image to $IMAGE_TAG"
+        git push origin main
