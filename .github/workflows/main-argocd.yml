@@ -17,22 +17,25 @@ jobs:
         sudo wget https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O /usr/bin/yq
         sudo chmod +x /usr/bin/yq
         yq --version
-    
+
     - name: Update ArgoCD Deployment Repo
       env:
         ARGOCD_REPO: git@github.com:Obi-Wan-Codenobi/argocd-deployment.git
-        IMAGE_TAG: ${{ github.sha::7 }}
+        FULL_SHA: ${{ github.event.workflow_run.head_sha }}
       run: |
+        IMAGE_TAG=${FULL_SHA::7}   # Bash substring
+        echo "Using image tag $IMAGE_TAG"
+
         # Clone Argo CD repo
         git clone $ARGOCD_REPO argocd-temp
         cd argocd-temp
 
-        # Update the deployment manifest
+        # Update deployment manifest
         yq eval ".spec.template.spec.containers[0].image = \"kodenobi/portfolio-website:$IMAGE_TAG\"" -i kustom-portfolio-website/overlays/prod/deployment.yaml
 
-        # Commit & push changes
+        # Commit & push
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add .
-        git commit -m "Update webapp image to $IMAGE_TAG"
+        git diff --cached --quiet || git commit -m "Update webapp image to $IMAGE_TAG"
         git push origin main
