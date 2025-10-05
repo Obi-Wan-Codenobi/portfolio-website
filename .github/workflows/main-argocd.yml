@@ -32,6 +32,7 @@ jobs:
 
         # Update deployment manifest
         yq eval ".spec.template.spec.containers[0].image = \"kodenobi/portfolio-website:$IMAGE_TAG\"" -i kustom-portfolio-website/base/deployment.yaml
+        yq eval "( .images[] | select(.name == \"kodenobi/portfolio-website\") ).newTag = \"$IMAGE_TAG\"" -i kustom-portfolio-website/overlays/prod/kustomization.yaml
 
         # Commit & push
         git config user.name "github-actions"
