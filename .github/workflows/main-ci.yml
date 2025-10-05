@@ -20,4 +20,4 @@ jobs:
       working-directory: website
       run: docker build --build-arg NEXT_PUBLIC_API_HOST=$NEXT_PUBLIC_API_HOST  -t kodenobi/portfolio-website .
     - name: Push to Dockerhub
-      run: docker push kodenobi/portfolio-website:latest
+      run: docker push kodenobi/portfolio-website:0.0.1
