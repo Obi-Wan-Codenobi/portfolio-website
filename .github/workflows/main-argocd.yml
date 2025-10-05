@@ -20,7 +20,7 @@ jobs:
 
     - name: Update ArgoCD Deployment Repo
       env:
-        ARGOCD_REPO: git@github.com:Obi-Wan-Codenobi/argocd-deployment.git
+        ARGOCD_REPO: https://github.com/Obi-Wan-Codenobi/argocd-deployment.git
         FULL_SHA: ${{ github.event.workflow_run.head_sha }}
       run: |
         IMAGE_TAG=${FULL_SHA::7}   # Bash substring
