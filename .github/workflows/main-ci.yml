@@ -5,7 +5,7 @@ on:
     branches: ["main"]
 
 jobs:
-  build-client:
+  update-image-tag:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -20,4 +20,6 @@ jobs:
       working-directory: website
       run: docker build --build-arg NEXT_PUBLIC_API_HOST=$NEXT_PUBLIC_API_HOST  -t kodenobi/portfolio-website .
     - name: Push to Dockerhub
-      run: docker push kodenobi/portfolio-website:0.0.1
+      run: |
+        IMAGE_TAG=${GITHUB_SHA::7}
+        docker push kodenobi/portfolio-website:$IMAGE_TAG
