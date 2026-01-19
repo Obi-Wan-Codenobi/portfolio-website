@@ -1,11 +1,3 @@
-export const aboutInfo: { title: string; href: string; description: string } =
-  {
-    title: "About page",
-    href: "/about",
-    description:
-      "A quick summary about myself",
-  }
-
 export default function About() {
     return (
         <div className="flex flex-col items-center">

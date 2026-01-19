@@ -2,8 +2,6 @@
 // import ThreeDEnv from "@/components/renderedEnvironment";
 // import About from "@/app/about/page";
 
-
-
 export default function Home() {
     return (
         // <Tree/>
