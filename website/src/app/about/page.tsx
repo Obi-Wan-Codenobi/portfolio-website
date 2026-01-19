@@ -1,7 +1,14 @@
+export const aboutInfo: { title: string; href: string; description: string } =
+  {
+    title: "About page",
+    href: "/about",
+    description:
+      "A quick summary about myself",
+  }
 
 export default function About() {
     return (
-        <div className="ma-5 flex flex-col items-center m-8">
+        <div className="flex flex-col items-center">
             <div className="title-area">
                 <h1>
                     Get to know me.
