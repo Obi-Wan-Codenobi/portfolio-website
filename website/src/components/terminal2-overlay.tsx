@@ -1,11 +1,13 @@
 "use client";
-import { useState, useEffect, useRef } from 'react';
-import { getBrowser, getOS } from '@/util/getPersonalInfo';
-import Menu from "@/components/menu-bar";
+import {useEffect, useRef, ReactNode } from 'react';
 import Head from 'next/head';
 
 
-export default function Home({ children }) {
+type Terminal2Props = {
+    children: ReactNode;
+};
+
+export default function Terminal2({ children }: Terminal2Props) {
     const terminalRef = useRef<HTMLDivElement>(null);
     const styleRef = useRef<HTMLStyleElement | null>(null);
 
